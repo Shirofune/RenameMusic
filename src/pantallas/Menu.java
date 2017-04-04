@@ -1,5 +1,6 @@
 package pantallas;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -7,22 +8,24 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.MessageFormat;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import controller.Controller;
-import java.awt.Color;
 
 public class Menu {
 
 	private JFrame frmMusicRenamer;
 	private JTextField directorySelectorTextField;
 	private JButton btnRename;
+	private final ButtonGroup typeOfRename = new ButtonGroup();
 
 
 
@@ -81,16 +84,39 @@ public class Menu {
 			}
 		});
 		btnExplore.setBounds(316, 52, 89, 23);
+	
+		
+		JRadioButton rdbtnTagsToName = new JRadioButton("Tags To Name");
+		typeOfRename.add(rdbtnTagsToName);
+		rdbtnTagsToName.setSelected(true);
+		rdbtnTagsToName.setBounds(59, 116, 109, 23);
+		frmMusicRenamer.getContentPane().add(rdbtnTagsToName);
+		
+		JRadioButton rdbtnNameToTags = new JRadioButton("Name To Tags");
+		typeOfRename.add(rdbtnNameToTags);
+		rdbtnNameToTags.setBounds(59, 142, 109, 23);
+		frmMusicRenamer.getContentPane().add(rdbtnNameToTags);
+		
 		getFrame().getContentPane().add(btnExplore);
 		{
 			btnRename = new JButton("Rename!");
 			btnRename.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+			
 					if (directorySelectorTextField.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(frmMusicRenamer, "A directory is necessary!");
 					}
 					else {
-						Controller.invokeRename(directorySelectorTextField.getText());
+						// We check which Radio Button is selected to see which kind of rename we've to do
+						int typeOfRename;
+						if (rdbtnTagsToName.isSelected()) {
+							typeOfRename = Controller.RENAME_TAGS_TO_NAME;
+						}
+						else {
+							typeOfRename = Controller.RENAME_NAME_TO_TAGS;
+						}
+						
+						Controller.invokeRename(directorySelectorTextField.getText(), typeOfRename);
 					}
 				}
 			});

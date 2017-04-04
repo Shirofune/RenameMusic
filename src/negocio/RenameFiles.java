@@ -30,7 +30,7 @@ public class RenameFiles {
 	 *            File to rename
 	 * @return Result of the operation
 	 */
-	public static boolean TagsToFile(File musicFile) {
+	public static boolean TagsToName(File musicFile) {
 
 		try {
 			MediaFile mediaFile = new MP3File(musicFile);
@@ -67,6 +67,10 @@ public class RenameFiles {
 			return false;
 		}
 
+	}
+	
+	public static boolean NameToTags(File musicFile){
+		throw new UnsupportedOperationException("This operation is not implemented yet!");
 	}
 
 }
