@@ -86,8 +86,8 @@ public abstract class RenameFiles {
 				return false;
 			}
 			
-			String artist = split[0];
-			String title = split[1].split("\\.")[0];
+			String artist = split[0].trim();
+			String title = split[1].split("\\.")[0].trim();
 			
 			// We check whether the file had previous tags or not. Depending on that, we update the info or we create new tags
 			MediaFile mediaFile = new MP3File(musicFile);
