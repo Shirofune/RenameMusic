@@ -18,8 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.blinkenlights.jid3.v2.RBUFID3V2Frame;
-
 import controller.Controller;
 
 public class Menu {
@@ -96,7 +94,7 @@ public class Menu {
 		frmMusicRenamer.getContentPane().add(rdbtnTagsToName);
 		
 		JRadioButton rdbtnNameToTags = new JRadioButton("Name To Tags");
-		rdbtnNameToTags.setActionCommand(String.valueOf(Controller.RENAME_TAGS_TO_NAME));
+		rdbtnNameToTags.setActionCommand(String.valueOf(Controller.RENAME_NAME_TO_TAGS));
 		typeOfRename.add(rdbtnNameToTags);
 		rdbtnNameToTags.setBounds(59, 142, 109, 23);
 		frmMusicRenamer.getContentPane().add(rdbtnNameToTags);
@@ -112,7 +110,7 @@ public class Menu {
 					}
 					else {
 						// We recover which rename option the user selected and send it to the controller
-						int typeOfRenameSelected = Integer.parseInt(typeOfRename.getSelection().getActionCommand());			
+						int typeOfRenameSelected = Integer.parseInt(typeOfRename.getSelection().getActionCommand());
 						Controller.invokeRename(directorySelectorTextField.getText(), typeOfRenameSelected);
 					}
 				}
@@ -145,9 +143,14 @@ public class Menu {
 	public static void showResultsWindow(int numberOfRenames){
 		String message;
 		switch (numberOfRenames) {
+			case 0: message = "No files were renamed."; break;
 			case 1: message = MessageFormat.format("{0} file was successfully renamed!", numberOfRenames); break;
 			default: message = MessageFormat.format("{0} files were successfully renamed!", numberOfRenames); break;
 			}
-		JOptionPane.showMessageDialog(null, message);
+		
+		switch (numberOfRenames) {
+			case 0: JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE); break;
+			default: JOptionPane.showMessageDialog(null, message); break;
+			}
 	}
 }

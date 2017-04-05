@@ -58,7 +58,7 @@ public abstract class RenameFiles {
 
 			// Now, lets rename the file
 			String finalName = MessageFormat.format("{0} - {1}.mp3", artist, title);
-			File renamedFile = new File(musicFile.getParentFile() + "/" + finalName);
+			File renamedFile = new File(MessageFormat.format("{0}/{1}", musicFile.getParentFile(), finalName));
 			musicFile.renameTo(renamedFile);
 
 			return true;
@@ -87,6 +87,7 @@ public abstract class RenameFiles {
 			}
 			
 			String artist = split[0].trim();
+			// There's no need to check if this split fails, we checked in the controller if the file ended in .mp3
 			String title = split[1].split("\\.")[0].trim();
 			
 			// We check whether the file had previous tags or not. Depending on that, we update the info or we create new tags
