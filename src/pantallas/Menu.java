@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.blinkenlights.jid3.v2.RBUFID3V2Frame;
+
 import controller.Controller;
 
 public class Menu {
@@ -87,12 +89,14 @@ public class Menu {
 	
 		
 		JRadioButton rdbtnTagsToName = new JRadioButton("Tags To Name");
+		rdbtnTagsToName.setActionCommand(String.valueOf(Controller.RENAME_TAGS_TO_NAME));
 		typeOfRename.add(rdbtnTagsToName);
 		rdbtnTagsToName.setSelected(true);
 		rdbtnTagsToName.setBounds(59, 116, 109, 23);
 		frmMusicRenamer.getContentPane().add(rdbtnTagsToName);
 		
 		JRadioButton rdbtnNameToTags = new JRadioButton("Name To Tags");
+		rdbtnNameToTags.setActionCommand(String.valueOf(Controller.RENAME_TAGS_TO_NAME));
 		typeOfRename.add(rdbtnNameToTags);
 		rdbtnNameToTags.setBounds(59, 142, 109, 23);
 		frmMusicRenamer.getContentPane().add(rdbtnNameToTags);
@@ -107,16 +111,9 @@ public class Menu {
 						JOptionPane.showMessageDialog(frmMusicRenamer, "A directory is necessary!");
 					}
 					else {
-						// We check which Radio Button is selected to see which kind of rename we've to do
-						int typeOfRename;
-						if (rdbtnTagsToName.isSelected()) {
-							typeOfRename = Controller.RENAME_TAGS_TO_NAME;
-						}
-						else {
-							typeOfRename = Controller.RENAME_NAME_TO_TAGS;
-						}
-						
-						Controller.invokeRename(directorySelectorTextField.getText(), typeOfRename);
+						// We recover which rename option the user selected and send it to the controller
+						int typeOfRenameSelected = Integer.parseInt(typeOfRename.getSelection().getActionCommand());			
+						Controller.invokeRename(directorySelectorTextField.getText(), typeOfRenameSelected);
 					}
 				}
 			});
